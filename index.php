@@ -32,7 +32,6 @@
 
     <script src="assets/js/script.js"></script>
     <script src="assets/js/scroll.js"></script>
-    <script src="assets/js/reaction.js"></script>
   </body>
 
 </html>

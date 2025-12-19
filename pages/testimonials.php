@@ -130,7 +130,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php include 'component/review_cards.php'; ?>
     </div>
 
-
     <p class="section-detail">Leave your own review</p>
     <button class="review-btn">Write a Review</button>
 
@@ -179,8 +178,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </div>
 
-<!-- Testimonial Animation -->
+<!-- Assets scripts for testimonial and reviews -->
 <script src="assets/js/testimonialSlider.js"></script>
+<script src="assets/js/reaction.js"></script>
+<script src="assets/js/starRating.js"></script>
+<script src="assets/js/modal.js"></script>
 
 <!-- Modal Script for Submission Feedback -->
 <?php if ($success === 1): ?>

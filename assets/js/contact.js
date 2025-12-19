@@ -10,40 +10,7 @@ const modalTitle = document.querySelector(".modal-title");
 const modalMessage = document.querySelector(".modal-message");
 const modalCloseBtn = document.querySelector(".modal-close-btn");
 
-// Show modal with success or error state
-function showModal(type, title, message) {
-  modalTitle.textContent = title;
-  modalMessage.textContent = message;
-
-  modal.classList.remove("success", "error");
-  modal.classList.add(type);
-
-  setTimeout(() => {
-    modal.classList.add("active");
-  }, 10);
-
-  document.body.style.overflow = "hidden";
-}
-
-// Hide modal and re-enable scrolling
-function hideModal() {
-  modal.classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-// Close modal events
-modalCloseBtn.addEventListener("click", hideModal);
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) hideModal();
-});
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && modal.classList.contains("active")) {
-    hideModal();
-  }
-});
-
 // FORM SUBMISSION HANDLER
-
 document
   .getElementById("contact-form")
   .addEventListener("submit", function (event) {

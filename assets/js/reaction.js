@@ -14,10 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const oppositeButton = card.querySelector(`.like-btn[data-type="${oppositeType}"]`);
 
             try {
-                const response = await fetch("connection/reaction.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ review_id: reviewId, vote_type: reactionType })
+                const response = await fetch("connection/db_add_reaction.php", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    review_id: reviewId,
+                    vote_type: reactionType,
+                  }),
                 });
 
                 const data = await response.json();
