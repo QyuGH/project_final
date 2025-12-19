@@ -1,0 +1,210 @@
+/* This contains CSS styles for the write a review form. */
+@import url('preset.css');
+
+/* Review Section */
+.review {
+  width: 100%;
+  padding: 1rem 2rem;
+  margin-top: 4.5rem;
+}
+
+.section-heading {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.section-detail {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+/* Toggle button */
+.review-btn {
+  display: block;
+  width: 12rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: calc(var(--glass-radius) * 0.5);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  margin: 0 auto;
+}
+
+.review-btn:hover {
+  background: var(--color-accent-secondary);
+  border-color: var(--color-accent-secondary);
+  transform: translateY(-0.125rem);
+}
+
+.review-btn:active {
+  transform: translateY(0);
+}
+
+/* Form container */
+.review-form-container {
+  width: 100%;
+  max-height: 0;         
+  padding: 0 1.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  background: var(--color-bg-mid);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  overflow: hidden;       
+  transform-origin: top;  
+  transition: all 0.5s ease;
+}
+
+/* Active state */
+.review-form-container.active {
+  max-height: 1000px;     
+  padding: 1.5rem;    
+  margin-top: 2rem;      
+  opacity: 1;
+}
+
+/* Form Styling */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-label {
+  display: block;
+  margin-bottom: .5rem;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.star-rating .star {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base star */
+.star-rating .star i {
+  font-size: 1.75rem;
+  color: var(--color-accent);
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+
+  will-change: transform;
+}
+
+/* Empty star output */
+.star-rating .star i.star-empty {
+  color: var(--color-bg-dark);
+}
+
+/* Filled star output */
+.star-rating .star i.star-filled {
+  color: var(--color-accent);
+}
+
+/* Hover feedback */
+.star-rating .star i.star-hover {
+  transform: scale(1.15);
+}
+
+.star-rating.rating-error i {
+  animation: starShake 0.4s ease;
+}
+
+@keyframes starShake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-4px); }
+  50%  { transform: translateX(4px); }
+  75%  { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+/* Inputs */
+.review-input,
+.review-text {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--color-text-main);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--glass-radius) * 0.5);
+  background: rgba(255,255,255,0.03);
+  transition: var(--transition-normal);
+  font-family: inherit;
+}
+
+.review-input:focus,
+.review-text:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background-color: rgba(11,11,37,0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.review-text {
+  resize: none;
+  height: 10rem;
+}
+
+/* Submit Button */
+.review-submit-btn {
+  width: 100%;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: calc(var(--glass-radius) * 0.5);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.review-submit-btn:hover {
+  background: var(--color-accent-secondary);
+  border-color: var(--color-accent-secondary);
+  transform: translateY(-0.125rem);
+}
+
+.review-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .review-text {
+    height: 8rem;
+  }
+  .star-rating .star i {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-text {
+    height: 7rem;
+  }
+  .star-rating .star i {
+    font-size: 1.5rem;
+  }
+}

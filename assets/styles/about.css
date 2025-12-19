@@ -1,0 +1,133 @@
+@import url("preset.css");
+
+/* Section about */
+.about {
+  padding: 4rem;
+}
+
+/* Section about-highlights */
+.about-highlights {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+/* Section highlight */
+.highlight {
+  width: 100%;
+  text-align: center;
+}
+
+.highlight h1 {
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+.highlight p {
+  font-weight: 300;
+}
+
+/* Section about-details */
+.about-details {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.about-details h1 {
+  font-size: 2.5rem;
+}
+
+.about-details div {
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Responsive 1024px */
+@media (max-width: 1024px) {
+  .about {
+    padding: 3rem 2rem;
+  }
+
+  .highlight h1 {
+    font-size: 3rem;
+  }
+
+  .about-details h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Responsive 900px */
+@media (max-width: 900px) {
+  .about-highlights {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .highlight {
+    width: calc(50% - 0.5rem);
+  }
+
+  .highlight h1 {
+    font-size: 2.75rem;
+  }
+}
+
+/* Responsive 768px */
+@media (max-width: 768px) {
+  .about {
+    padding: 2rem 1.5rem;
+  }
+
+  .about-highlights {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .highlight {
+    width: 100%;
+  }
+
+  .highlight h1 {
+    font-size: 2.5rem;
+  }
+
+  .highlight p {
+    font-size: 1rem;
+  }
+
+  .about-details {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .about-details h1 {
+    font-size: 2rem;
+  }
+
+  .about-details p {
+    font-size: 1rem;
+  }
+}
+
+/* Responsive 480px */
+@media (max-width: 480px) {
+  .about {
+    padding: 1.5rem 1rem;
+  }
+
+  .highlight h1 {
+    font-size: 2rem;
+  }
+
+  .about-details h1 {
+    font-size: 1.75rem;
+  }
+
+  .about-details p {
+    font-size: 0.9rem;
+  }
+}
