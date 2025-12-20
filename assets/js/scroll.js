@@ -108,22 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 100);
 });
 
-// 7. TESTIMONIALS SECTION
-document.addEventListener("DOMContentLoaded", () => {
-  const reviewBtn = document.querySelector(".review-btn");
-  const reviewFormContainer = document.querySelector(".review-form-container");
-
-  reviewBtn.addEventListener("click", () => {
-    reviewFormContainer.classList.toggle("active");
-    if (reviewFormContainer.classList.contains("active")) {
-      reviewBtn.textContent = "Close";
-    } else {
-      reviewBtn.textContent = "Write a Review";
-    }
-  });
-});
-
-// 8. COMMENT CARD OUTPUT ANIMATION
+// 7. COMMENT CARD OUTPUT ANIMATION
 document.addEventListener("DOMContentLoaded", () => {
   const reviewCards = document.querySelectorAll(".review-card-container");
 

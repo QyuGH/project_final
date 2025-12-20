@@ -138,11 +138,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="username-container">
                 <label for="username" class="review-label">Username</label>
-                <input type="text" name="username" id="username" class="review-input" />
+                <input type="text" name="username" id="username" class="review-input" autocomplete="name" />
             </div>
 
             <div class="star-container">
-                <label for="rating" class="review-label">Star Rating</label>
+                <label class="review-label">Star Rating</label>
                 <div class="star-rating">
                     <span class="star" data-value="1"><i class="fa-solid fa-star"></i></span>
                     <span class="star" data-value="2"><i class="fa-solid fa-star"></i></span>
@@ -182,6 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <script src="assets/js/testimonialSlider.js"></script>
 <script src="assets/js/reaction.js"></script>
 <script src="assets/js/starRating.js"></script>
+<script src="assets/js/reviewForm.js"></script>
 <script src="assets/js/modal.js"></script>
 
 <!-- Modal Script for Submission Feedback -->

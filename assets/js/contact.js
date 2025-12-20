@@ -4,12 +4,6 @@
   emailjs.init("oGsSBUwIoX1BGGZkj");
 })();
 
-// MODAL FUNCTIONS
-const modal = document.getElementById("email-modal");
-const modalTitle = document.querySelector(".modal-title");
-const modalMessage = document.querySelector(".modal-message");
-const modalCloseBtn = document.querySelector(".modal-close-btn");
-
 // FORM SUBMISSION HANDLER
 document
   .getElementById("contact-form")
