@@ -94,6 +94,32 @@
   width: 100%;
 }
 
+.review-card-bottom {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Action Buttons */
+.action-btn-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.action-btn:hover {
+  color: var(--color-accent);
+}
+
 /* Like / Dislike Icons */
 .like-icon-container {
   display: flex;

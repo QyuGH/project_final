@@ -42,19 +42,32 @@ require_once 'connection/db_retrieve.php';
             </p>
         </div>
 
-        <div class="like-icon-container">
-            <div class="like-count-container">
-                <button class="like-btn" data-type="like">
-                    <i class="fa-regular fa-thumbs-up"></i>
-                </button>
-                <span class="like-count"><?= $review['likes_count'] ?? 0 ?></span>
+        <div class="review-card-bottom">
+            <!-- Likes / Dislikes -->
+            <div class="like-icon-container">
+                <div class="like-count-container">
+                    <button class="like-btn" data-type="like">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                    </button>
+                    <span class="like-count"><?= $review['likes_count'] ?? 0 ?></span>
+                </div>
+
+                <div class="like-count-container">
+                    <button class="like-btn" data-type="dislike">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                    </button>
+                    <span class="dislike-count"><?= $review['dislikes_count'] ?? 0 ?></span>
+                </div>
             </div>
 
-            <div class="like-count-container">
-                <button class="like-btn" data-type="dislike">
-                    <i class="fa-regular fa-thumbs-down"></i>
+            <!-- Action Buttons -->
+            <div class="action-btn-container">
+                <button class="action-btn" data-type="edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <span class="dislike-count"><?= $review['dislikes_count'] ?? 0 ?></span>
+                <button class="action-btn" data-type="delete">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
     </div>

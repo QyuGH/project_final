@@ -1,8 +1,10 @@
-// EmailJS Handler 
-
+// EmailJS Handler
 (function () {
   emailjs.init("oGsSBUwIoX1BGGZkj");
 })();
+
+// Select the modal you want to use
+const contactModal = document.querySelector(".modal-overlay");
 
 // FORM SUBMISSION HANDLER
 document
@@ -20,7 +22,9 @@ document
       (response) => {
         console.log("SUCCESS!", response.status, response.text);
 
+        // Call modal for success message
         showModal(
+          contactModal,
           "success",
           "Message Sent!",
           "Thank you for reaching out! I'll get back to you as soon as possible."
@@ -33,7 +37,9 @@ document
       (error) => {
         console.log("FAILED...", error);
 
+        // Call modal for error message
         showModal(
+          contactModal,
           "error",
           "Oops! Something Went Wrong",
           "Failed to send your message. Please try again or contact me directly via my social media accounts."

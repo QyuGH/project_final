@@ -1,35 +1,38 @@
-const modal = document.getElementById("email-modal");
-const modalTitle = document.querySelector(".modal-title");
-const modalMessage = document.querySelector(".modal-message");
-const modalCloseBtn = document.querySelector(".modal-close-btn");
+/**
+ * HELPER FUNCTION FOR MODALS
+ */
+function showModal(modalEl, type = "", title = "", message = "") {
+  if (!modalEl) return;
 
-// Show modal with success or error state
-function showModal(type, title, message) {
-  modalTitle.textContent = title;
-  modalMessage.textContent = message;
+  const modalTitle = modalEl.querySelector(".modal-title");
+  const modalMessage = modalEl.querySelector(".modal-message");
 
-  modal.classList.remove("success", "error");
-  modal.classList.add(type);
+  if (modalTitle) modalTitle.textContent = title;
+  if (modalMessage) modalMessage.textContent = message;
 
-  setTimeout(() => {
-    modal.classList.add("active");
-  }, 10);
+  modalEl.classList.remove("success", "error");
+  if (type) modalEl.classList.add(type);
+
+  setTimeout(() => modalEl.classList.add("active"), 10);
 
   document.body.style.overflow = "hidden";
+
+  const closeBtn = modalEl.querySelector(".modal-close-btn");
+  if (closeBtn && !closeBtn.dataset.listenerAdded) {
+    closeBtn.addEventListener("click", () => hideModal(modalEl));
+    closeBtn.dataset.listenerAdded = "true";
+  }
+
+  if (!modalEl.dataset.listenerAdded) {
+    modalEl.addEventListener("click", (e) => {
+      if (e.target === modalEl) hideModal(modalEl);
+    });
+    modalEl.dataset.listenerAdded = "true";
+  }
 }
 
-// Hide modal and re-enable scrolling
-function hideModal() {
-  modal.classList.remove("active");
+function hideModal(modalEl) {
+  if (!modalEl) return;
+  modalEl.classList.remove("active");
   document.body.style.overflow = "auto";
 }
-
-// Event listener for close button
-modalCloseBtn.addEventListener("click", hideModal);
-
-// Close modal on outside click
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    hideModal();
-  }
-});

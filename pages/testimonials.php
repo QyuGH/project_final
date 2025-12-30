@@ -167,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </section>
 
 <!-- Modal Structure -->
-<div id="email-modal" class="modal-overlay">
+<div class="modal-overlay">
     <div class="modal-container">
         <div class="modal-content">
             <div class="modal-status"></div>
@@ -189,16 +189,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php if ($success === 1): ?>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // get the modal element
+            const reviewModal = document.querySelector(".modal-overlay");
+
             showModal(
+                reviewModal,
                 "success",
                 "Review Submitted!",
                 "Thank you! Your review has been posted successfully."
             );
-            // Reset form and stars 
+
+            // Reset form and stars
             const form = document.querySelector(".review-form");
             if (form) form.reset();
+
             const ratingInput = document.getElementById("rating");
             if (ratingInput) ratingInput.value = 0;
+
             const stars = document.querySelectorAll(".star-rating .star i");
             stars.forEach(star => star.classList.remove("star-filled"));
         });
@@ -206,7 +213,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php elseif ($success === 0): ?>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            const reviewModal = document.querySelector(".modal-overlay");
+
             showModal(
+                reviewModal,
                 "error",
                 "Submission Failed",
                 "Oops! Something went wrong. Please try submitting your review again."
