@@ -1,7 +1,9 @@
 <?php
 
 // Import database retrieval
-require_once 'connection/db_retrieve.php';
+require_once 'connection/db_reviews.php';
+
+$review_messages = getReviews($conn);
 
 ?>
 
@@ -62,12 +64,12 @@ require_once 'connection/db_retrieve.php';
 
             <!-- Action Buttons -->
             <div class="action-btn-container">
-                <button class="action-btn" data-type="edit">
+                <a href="?page=testimonials&action=edit&id=<?= $review['id'] ?>" class="action-btn" data-type="edit">
                     <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-                <button class="action-btn" data-type="delete">
+                </a>
+                <a href="?page=testimonials&action=delete&id=<?= $review['id'] ?>" class="action-btn" data-type="delete">
                     <i class="fa-solid fa-trash"></i>
-                </button>
+                </a>
             </div>
         </div>
     </div>

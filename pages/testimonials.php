@@ -1,32 +1,16 @@
 <?php
-// Importing file for database connection
-require_once 'connection/db_connect.php';
+
+require_once __DIR__ . '/../connection/db_reviews.php';
 
 $success = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Retrieve and sanitize form data for clean database insertion
-    $username = isset($_POST['username']) && trim($_POST['username']) !== ''
-        ? trim($_POST['username'])
-        : 'Anonymous' . rand(1000, 9999); // Default username if none provided
-    $rating = isset($_POST['rating']) ? (int) $_POST['rating'] : 1;
-    $review_message = isset($_POST['review_message']) ? trim($_POST['review_message']) : 'Empty review message';
+    $username = $_POST['username'] ?? '';
+    $rating = $_POST['rating'] ?? 1;
+    $review_message = $_POST['review_message'] ?? '';
 
-    // Prepare and execute the insert query
-    $stmt = $conn->prepare("INSERT INTO reviews (username, rating, message) VALUES (?, ?, ?)");
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
-    }
-
-    $stmt->bind_param("sis", $username, $rating, $review_message);
-
-    if ($stmt->execute()) {
-        $success = 1;
-    } else {
-        $success = 0;
-    }
-
-    $stmt->close();
+    // Call function to insert review
+    $success = addReview($conn, $username, $rating, $review_message);
 }
 
 ?>
@@ -125,11 +109,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h1 class="section-heading">Rating & Reviews</h1>
     <p class="section-detail">Read public comments from my followers</p>
 
-    <!-- Importing Review Output Cards -->
-    <div class="review-output-container">
-        <?php include 'component/review_cards.php'; ?>
-    </div>
-
     <p class="section-detail">Leave your own review</p>
     <button class="review-btn">Write a Review</button>
 
@@ -164,6 +143,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </form>
     </div>
+
+    <!-- Importing Review Output Cards -->
+    <div class="review-output-container">
+        <!-- Review card results will be viewed here -->
+      <?php include 'component/review_cards.php'; ?>
+</div>
+
 </section>
 
 <!-- Modal Structure -->
