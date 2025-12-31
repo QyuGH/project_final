@@ -59,7 +59,7 @@
 </section>
 
 <!-- Email Feedback Modal -->
-<div class="modal-overlay">
+<div class="modal-overlay contact-modal">
     <div class="modal-container">
         <div class="modal-content">
             <div class="modal-status"></div>

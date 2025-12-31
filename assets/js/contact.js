@@ -4,7 +4,7 @@
 })();
 
 // Select the modal you want to use
-const contactModal = document.querySelector(".modal-overlay");
+const contactModal = document.querySelector(".contact-modal");
 
 // FORM SUBMISSION HANDLER
 document

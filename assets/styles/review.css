@@ -33,6 +33,7 @@
   cursor: pointer;
   transition: var(--transition-normal);
   margin: 0 auto;
+  text-align: center;
 }
 
 .review-btn:hover {

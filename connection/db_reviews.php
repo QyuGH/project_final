@@ -47,3 +47,55 @@ function getReviews($conn) {
 
     return $reviews;
 }
+
+/**
+ * RETRIEVE REVIEWS BY ID, WILL BE USED FOR EDIT MODE
+ */
+function getReviewById($conn, $reviewId)
+{
+    $reviewId = (int) $reviewId;
+
+    $stmt = $conn->prepare("
+        SELECT id, username, rating, message
+        FROM reviews
+        WHERE id = ?
+    ");
+
+    if (!$stmt) {
+        return null;
+    }
+
+    $stmt->bind_param("i", $reviewId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $review = $result->fetch_assoc();
+    $stmt->close();
+
+    return $review ?: null;
+}
+
+/**
+ * UPDATE FUNCTION 
+ */
+function updateReview($conn, $reviewId, $rating, $message)
+{
+    $reviewId = (int) $reviewId;
+    $rating = (int) $rating;
+    $message = trim($message);
+
+    $stmt = $conn->prepare("
+        UPDATE reviews
+        SET rating = ?, message = ?
+        WHERE id = ?
+    ");
+
+    if (!$stmt) {
+        return 0;
+    }
+
+    $stmt->bind_param("isi", $rating, $message, $reviewId);
+    $success = $stmt->execute();
+    $stmt->close();
+
+    return $success ? 1 : 0;
+}
