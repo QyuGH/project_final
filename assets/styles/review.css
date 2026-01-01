@@ -191,6 +191,11 @@
   transform: translateY(0);
 }
 
+/* For disabled username input during edit mode */
+.not-allowed {
+  cursor: not-allowed;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .review-text {

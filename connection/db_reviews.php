@@ -99,3 +99,28 @@ function updateReview($conn, $reviewId, $rating, $message)
 
     return $success ? 1 : 0;
 }
+
+/**
+ * DELETE FUNCTION FOR DELETING A REVIEW
+ */
+function deleteReview($conn, $reviewId)
+{
+    if (!is_numeric($reviewId)) {
+        return 0;
+    }
+
+    $stmt = $conn->prepare("
+        DELETE FROM reviews 
+        WHERE id = ?
+    ");
+
+    if (!$stmt) {
+        return 0;
+    }
+
+    $stmt->bind_param("i", $reviewId);
+    $success = $stmt->execute();
+    $stmt->close();
+
+    return $success ? 1 : 0;
+}

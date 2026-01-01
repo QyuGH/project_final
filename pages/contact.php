@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../component/modal.php'; ?>
+
 <!-- Contact Section -->
 <section id="contact" class="contact">
     <h1 class="section-heading">Contacts</h1>
@@ -57,18 +59,6 @@
         </div>
     </div>
 </section>
-
-<!-- Email Feedback Modal -->
-<div class="modal-overlay contact-modal">
-    <div class="modal-container">
-        <div class="modal-content">
-            <div class="modal-status"></div>
-            <h2 class="modal-title">Title</h2>
-            <p class="modal-message">Message</p>
-            <button class="modal-close-btn">Close</button>
-        </div>
-    </div>
-</div>
 
 <!-- Contact Form Animation -->
 <script src="assets/js/modal.js"></script>

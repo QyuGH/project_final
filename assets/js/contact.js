@@ -3,7 +3,7 @@
   emailjs.init("oGsSBUwIoX1BGGZkj");
 })();
 
-// Select the modal you want to use
+// Get contact modal's class value
 const contactModal = document.querySelector(".contact-modal");
 
 // FORM SUBMISSION HANDLER

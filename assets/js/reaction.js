@@ -26,24 +26,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
 
                 if (data.success) {
-                    // Update review counts
-                    const likeCountSpan = card.querySelector(".like-count");
-                    const dislikeCountSpan = card.querySelector(".dislike-count");
+                  // Update reaction counts
+                  const likeCountSpan = card.querySelector(".like-count");
+                  const dislikeCountSpan = card.querySelector(".dislike-count");
 
-                    if (likeCountSpan) likeCountSpan.textContent = data.likes;
-                    if (dislikeCountSpan) dislikeCountSpan.textContent = data.dislikes;
+                  if (likeCountSpan) likeCountSpan.textContent = data.likes;
+                  if (dislikeCountSpan)
+                    dislikeCountSpan.textContent = data.dislikes;
 
-                    // Change button states as a feedback
-                    if (data.active_reaction === reactionType) {
-                        button.classList.add("voted");
-                        button.disabled = false;
-                        if (oppositeButton) {
-                            oppositeButton.classList.remove("voted");
-                            oppositeButton.disabled = false;
-                        }
-                    } else {
-                        button.classList.remove("voted");
+                  // Change button states as success feedback
+                  if (data.active_reaction === reactionType) {
+                    button.classList.add("voted");
+                    button.disabled = false;
+                    if (oppositeButton) {
+                      oppositeButton.classList.remove("voted");
+                      oppositeButton.disabled = false;
                     }
+                  } else {
+                    button.classList.remove("voted");
+                  }
                 }
             } catch (error) {
                 alert("Reaction failed.");

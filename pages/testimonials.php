@@ -1,17 +1,82 @@
 <?php
 
 require_once __DIR__ . '/../connection/db_reviews.php';
+require_once __DIR__ . '/../component/modal.php';
+
+session_start();
 
 $success = "";
+$isEditMode = false;
+$editReview = null;
 
+/**
+ * POST SUBMISSION FOR CREATING A REVIEW
+ */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = $_POST['username'] ?? '';
     $rating = $_POST['rating'] ?? 1;
     $review_message = $_POST['review_message'] ?? '';
 
-    // Call function to insert review
-    $success = addReview($conn, $username, $rating, $review_message);
+    // Check if the page is in edit or create review mode
+    if (isset($_POST['review_id']) && is_numeric($_POST['review_id'])) {
+        // Use update review function if in edit mode
+        $reviewId = (int) $_POST['review_id'];
+        $success = updateReview($conn, $reviewId, $rating, $review_message);
+    } else {
+        // Use add review function if in normal or create mode
+        $username = $_POST['username'] ?? '';
+        $success = addReview($conn, $username, $rating, $review_message);
+    }
 }
+
+/**
+ * HANDLE EDIT MODE
+ */
+if (
+    isset($_GET['action'], $_GET['id']) &&
+    $_GET['action'] === 'edit' &&
+    is_numeric($_GET['id'])
+) {
+    $editReviewId = (int) $_GET['id'];
+
+    // Retrieve review data using the get review function
+    $editReview = getReviewById($conn, $editReviewId);
+
+    if ($editReview) {
+        $isEditMode = true;
+    }
+}
+
+/**
+ * HANDLE DELETE ACTION
+ */
+if (
+    isset($_GET['action'], $_GET['id']) &&
+    $_GET['action'] === 'delete' &&
+    is_numeric($_GET['id'])
+) {
+    $reviewId = (int) $_GET['id'];
+
+    // Assign a session based boolean flag to be used for modal
+    if (deleteReview($conn, $reviewId)) {
+        $_SESSION['delete_success'] = true;
+    } else {
+        $_SESSION['delete_success'] = false;
+    }
+
+    header("Location: ?page=testimonials");
+    exit;
+}
+
+/**
+ * FLAG SUCCESS DELETION
+ */
+$showDeleteSuccessModal = false;
+
+if (isset($_SESSION['delete_success'])) {
+    $showDeleteSuccessModal = $_SESSION['delete_success'];
+    unset($_SESSION['delete_success']);
+}
+
 
 ?>
 
@@ -109,103 +174,136 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h1 class="section-heading">Rating & Reviews</h1>
     <p class="section-detail">Read public comments from my followers</p>
 
-    <p class="section-detail">Leave your own review</p>
+    <p class="section-detail">
+        <?= $isEditMode ? 'Edit your review' : 'Leave your own reviews' ?>
+    </p>
+    <!-- Dynamic button label to handle both edit and creation mode -->
+    <?php if ($isEditMode): ?>
+        <a href="?page=testimonials" class="review-btn">Cancel</a>
+    <?php else: ?>
     <button class="review-btn">Write a Review</button>
+    <?php endif; ?>
 
-    <div class="review-form-container">
+
+    <div class="review-form-container <?= $isEditMode ? 'active' : '' ?>">
         <form method="post" action="" class="review-form">
+
+            <?php if ($isEditMode): ?>
+                <!-- Hidden input to store review ID for update -->
+                <input type="hidden" name="review_id" value="<?= $editReview['id'] ?>">
+            <?php endif; ?>
 
             <div class="username-container">
                 <label for="username" class="review-label">Username</label>
-                <input type="text" name="username" id="username" class="review-input" autocomplete="name" />
+                <input type="text" name="username" id="username"
+                    class="review-input <?= $isEditMode ? 'not-allowed' : '' ?>"
+                    value="<?= $isEditMode ? htmlspecialchars($editReview['username']) : '' ?>" autocomplete="name"
+                    <?= $isEditMode ? 'disabled' : '' ?> />
             </div>
 
             <div class="star-container">
                 <label class="review-label">Star Rating</label>
                 <div class="star-rating">
-                    <span class="star" data-value="1"><i class="fa-solid fa-star"></i></span>
-                    <span class="star" data-value="2"><i class="fa-solid fa-star"></i></span>
-                    <span class="star" data-value="3"><i class="fa-solid fa-star"></i></span>
-                    <span class="star" data-value="4"><i class="fa-solid fa-star"></i></span>
-                    <span class="star" data-value="5"><i class="fa-solid fa-star"></i></span>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <span class="star" data-value="<?= $i ?>">
+                            <i class="fa-solid fa-star <?= ($isEditMode && $i <= $editReview['rating']) ? 'star-filled' : '' ?>"></i>
+                        </span>
+                    <?php endfor; ?>
                 </div>
-                <input type="hidden" name="rating" id="rating" value="0" required>
+                <input type="hidden" name="rating" id="rating" value="<?= $isEditMode ? $editReview['rating'] : 0 ?>" required>
             </div>
 
             <div class="review-message-container">
                 <label for="review_message" class="review-label">Message</label>
                 <textarea name="review_message" id="review_message" class="review-text" maxlength="255"
-                    required></textarea>
+                    required><?= $isEditMode ? htmlspecialchars($editReview['message']) : '' ?></textarea>
             </div>
 
             <div class="button-container">
-                <button type="submit" class="review-submit-btn">Submit Review</button>
+                <button type="submit" class="review-submit-btn">
+                    <?= $isEditMode ? 'Submit Update' : 'Submit Review' ?>
+                </button>
             </div>
         </form>
     </div>
 
     <!-- Importing Review Output Cards -->
     <div class="review-output-container">
-        <!-- Review card results will be viewed here -->
-      <?php include 'component/review_cards.php'; ?>
-</div>
-
-</section>
-
-<!-- Modal Structure -->
-<div class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-content">
-            <div class="modal-status"></div>
-            <h2 class="modal-title">Title</h2>
-            <p class="modal-message">Message</p>
-            <button class="modal-close-btn">Close</button>
+        <?php include 'component/review_cards.php'; ?>
         </div>
-    </div>
-</div>
+</section>
 
 <!-- Assets scripts for testimonial and reviews -->
 <script src="assets/js/testimonialSlider.js"></script>
 <script src="assets/js/reaction.js"></script>
 <script src="assets/js/starRating.js"></script>
 <script src="assets/js/reviewForm.js"></script>
+<script src="assets/js/deleteReview.js"></script>
 <script src="assets/js/modal.js"></script>
 
 <!-- Modal Script for Submission Feedback -->
 <?php if ($success === 1): ?>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // get the modal element
-            const reviewModal = document.querySelector(".modal-overlay");
+            const reviewModal = document.querySelector(".review-modal");
 
-            showModal(
-                reviewModal,
-                "success",
-                "Review Submitted!",
-                "Thank you! Your review has been posted successfully."
-            );
-
-            // Reset form and stars
-            const form = document.querySelector(".review-form");
-            if (form) form.reset();
-
-            const ratingInput = document.getElementById("rating");
-            if (ratingInput) ratingInput.value = 0;
-
-            const stars = document.querySelectorAll(".star-rating .star i");
-            stars.forEach(star => star.classList.remove("star-filled"));
+            <?php if ($isEditMode): ?>
+                // Edit mode
+                showModal(
+                    reviewModal,
+                    "success",
+                    "Review Updated!",
+                    "Your review has been updated successfully.",
+                    "?page=testimonials"
+                );
+            <?php else: ?>
+            // Create mode
+                showModal(
+                    reviewModal,
+                    "success",
+                    "Review Submitted!",
+                    "Thank you! Your review has been posted successfully."
+                );
+            <?php endif; ?>
         });
     </script>
 <?php elseif ($success === 0): ?>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const reviewModal = document.querySelector(".modal-overlay");
+            const reviewModal = document.getElementById("modal");
 
+            <?php if ($isEditMode): ?>
+                showModal(
+                    reviewModal,
+                    "error",
+                    "Update Failed",
+                    "Oops! Something went wrong while updating your review. Please try again."
+                );
+            <?php else: ?>
             showModal(
                 reviewModal,
                 "error",
                 "Submission Failed",
-                "Oops! Something went wrong. Please try submitting your review again."
+                    "Oops! Something went wrong while submitting your review. Please try again."
+                );
+            <?php endif; ?>
+        });
+                    </script>
+    <?php endif; ?>
+    
+    
+    <!-- Modal Script for Success deletion feedback -->
+    <?php if ($showDeleteSuccessModal): ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.querySelector(".delete-modal");
+
+            showModal(
+                modal,
+                "success",
+                "Review Deleted",
+                "The review has been deleted successfully.",
+                "?page=testimonials"
             );
         });
     </script>
